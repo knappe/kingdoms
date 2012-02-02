@@ -1,0 +1,116 @@
+﻿table {
+  text-align: center;
+  margin: 0 auto;
+}
+tr {
+  padding: 3px;
+}
+
+td {
+  border-style: solid;
+  border-color: black;
+  border-width: 10px;
+  background: url('/images/grass.jpg');
+  padding-top: 58px;
+  padding-left: 105px;
+}
+
+
+.black-background {
+  opacity: 1;
+  background: black;
+}
+
+.red {
+  color: red;
+}
+
+.hidden {
+  display: none;
+}
+  body {
+      background-color: #D1D1D1;
+  }
+.small-text {
+  font-size: 9px;
+}
+.small-text .x-button-label {
+  line-height: normal;
+}
+h1 {
+  font-weight: bold;
+}
+p {
+  font-size: 24px;
+  line-height: 30px;
+}
+.hidden {
+  display: none;
+}
+.float-right {
+  float: right;
+}
+.float-left {
+  float: left;
+}
+
+.lightninggrid input {
+	border:1px solid #dddddd;	
+}
+	
+.x-slider-value-text {
+	padding:18px 0 0 0;
+}
+.sliderpanel div
+{
+  padding-top: 0;
+}
+
+
+/* Custom slider */
+.hbox {
+    display: -webkit-box;
+    -webkit-box-orient: horizontal;
+    -webkit-box-align: stretch;
+}
+
+.vbox {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-box-align: stretch;
+}
+
+.flex1 {
+    -webkit-box-flex: 1;
+}
+
+.cslider-parent {
+    /*width: 40px;*/
+    position: absolute;
+    top: 45px;
+}
+
+.cslider-value {
+    width: 70px;
+    background: white;
+    border-left: 1px solid #DDD;
+    border-right: 1px solid #DDD;
+    white-space: nowrap;
+    padding: 8px !important;
+    display: -webkit-box;
+    -webkit-box-pack: left;
+    -webkit-box-align: center;
+}
+
+.cslider-minvalue, .cslider-maxvalue {
+    font-size: .70em;
+}
+
+.cslider-minvalue {
+    margin-left: 10px;
+}
+
+.cslider-maxvalue {
+    text-align: right;
+    margin-left: -35px;
+}
