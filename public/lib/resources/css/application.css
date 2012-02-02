@@ -1,6 +1,7 @@
 ﻿table {
   text-align: center;
   margin: 0 auto;
+  margin-top: 20px;
 }
 tr {
   padding: 3px;
@@ -11,8 +12,8 @@ td {
   border-color: black;
   border-width: 10px;
   background: url('/images/grass.jpg');
-  padding-top: 58px;
-  padding-left: 105px;
+  padding-top: 120px;
+  padding-left: 140px;
 }
 
 
