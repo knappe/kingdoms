@@ -72,12 +72,40 @@ app.views.BottomBar = Ext.extend(Ext.Panel, {
           {
             ui: 'action',
             text: 'Random Tile',
-            disabled: true
+//            disabled: true,
+            handler : function() {
+              console.log('handled')
+            }
           }
         ]
       }
     ],
     app.views.BottomBar.superclass.initComponent.apply(this, arguments);
+  },
+  generateRandomTile: function() {
+    if (app.totalTiles <= 0)
+      this.generateTiles();
+
+
+  },
+  generateTiles: function() {
+    var randomNumbers = this.generateRandomNumbers();
+    Ext.each(app.stores.Tiles.data.items, function(tile, index) {
+      tile.set('random', randomNumbers[index]);
+    });
+    // sort the tiles by their random number
+  },
+  generateRandomNumbers: function() {
+    var arr = [];
+    while(arr.length < 8){
+      var randomnumber=Math.ceil(Math.random()*100);
+      var found=false;
+      for(var i=0;i<arr.length;i++){
+        if(arr[i]==randomnumber){found=true;break}
+      }
+      if(!found)arr[arr.length]=randomnumber;
+    }
+    return arr;
   }
 });
 
