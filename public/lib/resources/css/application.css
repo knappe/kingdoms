@@ -1,7 +1,34 @@
-﻿table {
+﻿.x-toolbar {
+  height: 60px;
+}
+
+.green {
+  color: green;
+  background-color: green !important;
+  background-image: none !important;
+}
+.red {
+  color: #D80000;
+  background-color: #D80000 !important;
+  background-image: none !important;
+}
+.blue {
+  color: blue;
+  background-color: blue !important;
+  background-image: none !important;
+}
+.white {
+  color: white;
+  background-color: white !important;
+  background-image: none !important;
+  
+}
+
+table {
   text-align: center;
   margin: 0 auto;
   margin-top: 20px;
+  /*margin-right: 100px;*/
 }
 tr {
   padding: 3px;

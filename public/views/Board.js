@@ -1,9 +1,17 @@
 app.views.Board = Ext.extend(Ext.Panel, {
-  id: 'board',
+  id: 'boardPanel',
+  scroll: 'vertical',
+//  layout: {type: 'hbox', align: 'stretch'},
   initComponent: function() {
     this.items = [
+//      {
+//        xtype: 'panel',
+//        id   : 'notification',
+//        html: '<div>spacerbox</div>'
+//      },
       {
         xtype: 'panel',
+        id: 'board',
         html: '<table>' +
                 '<tr>' +
                   '<td></td>' +

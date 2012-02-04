@@ -1,6 +1,7 @@
 app.views.TopNavigation = Ext.extend(Ext.Panel, {
   id: 'topNav',
   dock: 'top',
+  isDroppable: false,
   initComponent: function() {
     var pressed = true;
     this.dockedItems = [
@@ -22,9 +23,9 @@ app.views.TopNavigation = Ext.extend(Ext.Panel, {
                     element: 'el',
                     fn: function() {
                       this.pressed = false;
-                      Ext.getCmp('castleBar').show();
-                      Ext.getCmp('tileBar').hide();
-                      Ext.getCmp('castleBar').doComponentLayout();
+                      Ext.getCmp('bottomCastleBar').show();
+                      Ext.getCmp('bottomTileBar').hide();
+                      Ext.getCmp('bottomCastleBar').doComponentLayout();
                     }
                   }
                 }
@@ -39,9 +40,9 @@ app.views.TopNavigation = Ext.extend(Ext.Panel, {
                     element: 'el',
                     fn: function() {
                       this.pressed = true;
-                      Ext.getCmp('castleBar').hide();
-                      Ext.getCmp('tileBar').show();
-                      Ext.getCmp('tileBar').doComponentLayout();
+                      Ext.getCmp('bottomCastleBar').hide();
+                      Ext.getCmp('bottomTileBar').show();
+                      Ext.getCmp('bottomTileBar').doComponentLayout();
                     }
                   }
                 }

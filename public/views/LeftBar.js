@@ -1,12 +1,12 @@
-app.views.BottomBar = Ext.extend(Ext.Panel, {
-  id: 'bottomBar',
-  dock: 'bottom',
+app.views.LeftBar = Ext.extend(Ext.Panel, {
+  id: 'leftBar',
+  dock: 'left',
   initComponent: function() {
     this.dockedItems = [
       {
         xtype: 'toolbar',
         hidden: false,
-        id   : 'bottomCastleBar',
+        id   : 'leftCastleBar',
         title: 'Castle',
         items: [
           {
@@ -50,7 +50,7 @@ app.views.BottomBar = Ext.extend(Ext.Panel, {
       },
       {
         xtype: 'toolbar',
-        id   : 'bottomTileBar',
+        id   : 'leftTileBar',
         hidden: true,
         title: 'Tiles',
         items: [
@@ -77,7 +77,6 @@ app.views.BottomBar = Ext.extend(Ext.Panel, {
         ]
       }
     ],
-    app.views.BottomBar.superclass.initComponent.apply(this, arguments);
+    app.views.LeftBar.superclass.initComponent.apply(this, arguments);
   }
 });
-
