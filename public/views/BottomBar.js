@@ -97,7 +97,7 @@ app.views.BottomBar = Ext.extend(Ext.Panel, {
       ui      : 'action',
       itemId  : tile.get('name'),
       cls     : 'x-btn-text-icon',
-      icon    : 'images/6.png',
+      icon    : tile.get('icon'),
       text    : tile.get('text')
     });
     app.views.BottomBar.getDockedComponent('bottomTileBar').doLayout();
