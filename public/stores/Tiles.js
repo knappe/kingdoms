@@ -178,7 +178,7 @@ app.stores.Tiles = new Ext.data.Store({
       name   : 'goldMine',
       icon   : 'images/goldmine.png',
       value  : 0,
-      text   : 'Gold Mine',
+      text   : 'Gold<br/>Mine',
       random : 1,
       status : 'store'
     },
