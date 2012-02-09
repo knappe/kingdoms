@@ -12,7 +12,7 @@ app.stores.Tiles = new Ext.data.Store({
     },
     {
       id     : 1,
-      name   : 'positiveSix',
+      name   : 'positiveSix_1',
       value  : '6',
       text   : '+6',
       random : 1,
@@ -28,7 +28,7 @@ app.stores.Tiles = new Ext.data.Store({
     },
     {
       id     : 3,
-      name   : 'positiveFive',
+      name   : 'positiveFive_1',
       value  : '5',
       text   : '+5',
       random : 1,
@@ -44,7 +44,7 @@ app.stores.Tiles = new Ext.data.Store({
     },
     {
       id     : 5,
-      name   : 'positiveFour',
+      name   : 'positiveFour_1',
       value  : '4',
       text   : '+4',
       random : 1,
@@ -60,7 +60,7 @@ app.stores.Tiles = new Ext.data.Store({
     },
     {
       id     : 7,
-      name   : 'positiveThree',
+      name   : 'positiveThree_1',
       value  : '3',
       text   : '+3',
       random : 1,
@@ -76,7 +76,7 @@ app.stores.Tiles = new Ext.data.Store({
     },
     {
       id     : 9,
-      name   : 'positiveTwo',
+      name   : 'positiveTwo_1',
       value  : '2',
       text   : '+2',
       random : 1,
@@ -92,7 +92,7 @@ app.stores.Tiles = new Ext.data.Store({
     },
     {
       id     : 11,
-      name   : 'positiveOne',
+      name   : 'positiveOne_1',
       value  : 1,
       text   : '+1',
       random : 1,
@@ -180,11 +180,16 @@ app.stores.Tiles = new Ext.data.Store({
     },
     {
       id     : 22,
-      name   : 'mountain',
+      name   : 'mountain_1',
       value  : 0,
       text   : 'Mountain',
       random : 1,
       status : 'store'
     }
-  ]
+  ],
+  proxy: {
+      type: 'localstorage',
+      id: 'tiles'
+  },
+  autoLoad: true
 });

@@ -6,6 +6,9 @@ Ext.regApplication ({
     app.geocoder =  new google.maps.Geocoder();
     isOnline();
     app.launched = true;
+
+    app.totalTiles = 0;
+
     app.mainLaunch();
   },
   mainLaunch: function() {

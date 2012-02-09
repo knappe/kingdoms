@@ -2,7 +2,8 @@ app.views.BottomBar = Ext.extend(Ext.Panel, {
   id: 'bottomBar',
   dock: 'bottom',
   initComponent: function() {
-    this.dockedItems = [
+    var me = this;
+    me.dockedItems = [
       {
         xtype: 'toolbar',
         hidden: false,
@@ -51,61 +52,55 @@ app.views.BottomBar = Ext.extend(Ext.Panel, {
       {
         xtype: 'toolbar',
         id   : 'bottomTileBar',
+        scroll: 'horizontal',
         hidden: true,
         title: 'Tiles',
         items: [
-          {
-            ui  : 'action',
-            cls : 'x-btn-text-icon',
-            icon: 'images/6.png',
-            text: '+6'
-          },
-          {
-            ui: 'action',
-            cls : 'x-btn-text-icon',
-            icon: 'images/6.png',
-            text: '-6'
-          },
           {
             xtype: 'spacer'
           },
           {
             ui: 'action',
+            itemId: 'randomTileButton',
             text: 'Random Tile',
-//            disabled: true,
             handler : function() {
-              console.log('handled')
+              var tile = me.generateRandomTile();
+              console.log(tile);
+              me.updateTile(tile);
             }
           }
         ]
       }
     ],
-    app.views.BottomBar.superclass.initComponent.apply(this, arguments);
+    app.views.BottomBar.superclass.initComponent.apply(me, arguments);
   },
   generateRandomTile: function() {
+    var tile = app.stores.Tiles.first();
+    tile.set('status', 'hand');
+    app.stores.Tiles.filter('status', 'store');
+    app.totalTiles--;
+    console.log('app.totalTiles', app.totalTiles);
     if (app.totalTiles <= 0)
-      this.generateTiles();
+    {
+      console.log('no more tiles');
 
-
-  },
-  generateTiles: function() {
-    var randomNumbers = this.generateRandomNumbers();
-    Ext.each(app.stores.Tiles.data.items, function(tile, index) {
-      tile.set('random', randomNumbers[index]);
-    });
-    // sort the tiles by their random number
-  },
-  generateRandomNumbers: function() {
-    var arr = [];
-    while(arr.length < 8){
-      var randomnumber=Math.ceil(Math.random()*100);
-      var found=false;
-      for(var i=0;i<arr.length;i++){
-        if(arr[i]==randomnumber){found=true;break}
-      }
-      if(!found)arr[arr.length]=randomnumber;
+      var button = app.views.BottomBar.getDockedComponent('bottomTileBar').getComponent('randomTileButton');
+      if (button)
+        button.disable();
+      else
+        console.log('cant find button');
     }
-    return arr;
+    return tile;
+  },
+  updateTile: function(tile) {
+    app.views.BottomBar.getDockedComponent('bottomTileBar').insert(0, {
+      ui      : 'action',
+      itemId  : tile.get('name'),
+      cls     : 'x-btn-text-icon',
+      icon    : 'images/6.png',
+      text    : tile.get('text')
+    });
+    app.views.BottomBar.getDockedComponent('bottomTileBar').doLayout();
   }
 });
 
