@@ -182,16 +182,8 @@ app.stores.Tiles = new Ext.data.Store({
       random : 1,
       status : 'store'
     },
-//    {
-//      id     : 20,
-//      name   : 'goldMine',
-//      value  : 0,
-//      text   : 'Gold Mine',
-//      random : 1,
-//      status : 'store'
-//    },
     {
-      id     : 21,
+      id     : 20,
       name   : 'mountain',
       icon   : 'images/mountain.svg',
       value  : 0,
@@ -200,7 +192,7 @@ app.stores.Tiles = new Ext.data.Store({
       status : 'store'
     },
     {
-      id     : 22,
+      id     : 21,
       name   : 'mountain_1',
       icon   : 'images/mountain.svg',
       value  : 0,
