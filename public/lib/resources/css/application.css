@@ -34,6 +34,15 @@ tr {
   padding: 3px;
 }
 
+.tile {
+  border-style: solid;
+  border-color: black;
+  border-width: 10px;
+  background: url('/images/grass.jpg');
+  padding-top: 120px;
+  padding-left: 140px;
+}
+
 td {
   border-style: solid;
   border-color: black;
