@@ -71,7 +71,7 @@ app.views.BottomBar = Ext.extend(Ext.Panel, {
           }
         ]
       }
-    ],
+    ];
     app.views.BottomBar.superclass.initComponent.apply(me, arguments);
   },
   generateRandomTile: function() {

@@ -25,7 +25,8 @@ app.views.TopNavigation = Ext.extend(Ext.Panel, {
                       this.pressed = false;
                       Ext.getCmp('bottomCastleBar').show();
                       Ext.getCmp('bottomTileBar').hide();
-                      Ext.getCmp('bottomCastleBar').doComponentLayout();
+                      Ext.getCmp('mainPanel').doComponentLayout();
+//                      Ext.getCmp('bottomCastleBar').doComponentLayout();
                     }
                   }
                 }
@@ -42,7 +43,8 @@ app.views.TopNavigation = Ext.extend(Ext.Panel, {
                       this.pressed = true;
                       Ext.getCmp('bottomCastleBar').hide();
                       Ext.getCmp('bottomTileBar').show();
-                      Ext.getCmp('bottomTileBar').doComponentLayout();
+                      Ext.getCmp('mainPanel').doComponentLayout();
+//                      Ext.getCmp('bottomTileBar').doComponentLayout();
                     }
                   }
                 }

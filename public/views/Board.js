@@ -1,7 +1,11 @@
 app.views.Board = Ext.extend(Ext.Panel, {
   id: 'boardPanel',
   scroll: 'vertical',
-//  layout: {type: 'hbox', align: 'stretch'},
+  listeners : {
+    afterrender: function() {
+
+    }
+  },
   initComponent: function() {
     this.items = [
 //      {
@@ -12,49 +16,25 @@ app.views.Board = Ext.extend(Ext.Panel, {
       {
         xtype: 'panel',
         id: 'board',
-        html: '<table>' +
-                '<tr>' +
-                  '<td></td>' +
-                  '<td></td>' +
-                  '<td></td>' +
-                  '<td></td>' +
-                  '<td></td>' +
-                  '<td></td>' +
-                '</tr>' +
-                '<tr>' +
-                  '<td></td>' +
-                  '<td></td>' +
-                  '<td></td>' +
-                  '<td></td>' +
-                  '<td></td>' +
-                  '<td></td>' +
-                '</tr>' +
-                '<tr>' +
-                  '<td></td>' +
-                  '<td></td>' +
-                  '<td></td>' +
-                  '<td></td>' +
-                  '<td></td>' +
-                  '<td></td>' +
-                '</tr>' +
-                '<tr>' +
-                  '<td></td>' +
-                  '<td></td>' +
-                  '<td></td>' +
-                  '<td></td>' +
-                  '<td></td>' +
-                  '<td></td>' +
-                '</tr>' +
-                '<tr>' +
-                  '<td></td>' +
-                  '<td></td>' +
-                  '<td></td>' +
-                  '<td></td>' +
-                  '<td></td>' +
-                  '<td></td>' +
-                '</tr>'
+        items: [
+          {
+            html: this.generateBoard(4, 5)
+          }
+        ]
       }
-    ],
+    ];
     app.views.Board.superclass.initComponent.apply(this, arguments);
+  },
+  generateBoard : function(length, width) {
+    var board = '<table>';
+    for(i=0; i<=length; i++) {
+      board = board + '<tr>'
+      for(j=0; j<=width; j++) {
+        board = board + '<td id=' + i + '-' + j + '></td>'
+      }
+      board = board + '</tr>'
+    }
+    board = board + '</table>';
+    return board
   }
 });
