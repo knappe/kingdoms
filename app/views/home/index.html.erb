@@ -1,40 +1,425 @@
-<!DOCTYPE html>
-<html>
-<head>
+<!doctype html>
 
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  <title>localshows</title>
-  <link rel="stylesheet" href="lib/sencha-touch-1.1.1/resources/css/sencha-touch.css" type="text/css">
-  <link href="lib/resources/css/application.css" rel="stylesheet" type="text/css">
-  <script type="text/javascript" src="lib/sencha-touch-1.1.1/sencha-touch-debug-w-comments.js"></script>
-  <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=true"></script>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>jQuery UI Draggable - Snap to element or grid</title>
+    <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.0/themes/base/jquery-ui.css" />
+    <script src="http://code.jquery.com/jquery-1.8.3.js"></script>
+    <script src="http://code.jquery.com/ui/1.10.0/jquery-ui.js"></script>
+    <link rel="stylesheet" href="/lib/resources/css/application.css" />
+    <style>
+      .draggable { width: 130px; height: 120px; padding: 5px; float: left; margin: 0 10px 10px 0; font-size: .9em; }
+      .dropped { width: 130px; height: 120px; padding: 5px; float: left; margin: 0 10px 10px 0; font-size: .9em; }
+      .ui-widget-header p, .ui-widget-content p { margin: 0; }
+      #snaptarget { height: 940px; width: 1000px; }
+        .grid {width: 20px; height: 20px}
+      table {
+        text-align: center;
+        margin: 0 auto;
+        margin-top: 20px;
+        /*margin-right: 100px;*/
+      }
+      tr {
+        padding: 3px;
+      }
+
+      #tiles-container {
+        width: 300px;
+        height: 200px;
+        background-color: #563616;
+      }
+
+      #mountain#mountain_1 {
+        background: url('/images/mountain.svg');
+      }
+
+      #goldmine {
+        background: url('/images/goldmine.png');
+      }
+
+      #dragon {
+        background: url('/images/dragon.png');
+      }
+
+      #negativeSix {
+        background: url('/images/6.png');
+      }
+      #positiveSix {
+        background: url('/images/6.png');
+      }
+      #positiveSix_1 {
+        background: url('/images/6.png');
+      }
+
+      #negativeFive {
+        background: url('/images/5.jpg');
+      }
+      #positiveFive {
+        background: url('/images/5.jpg');
+      }
+      #positiveFive_1 {
+        background: url('/images/5.jpg');
+      }
+
+      #negativeFour {
+        background: url('/images/4.jpg');
+      }
+      #positiveFour {
+        background: url('/images/4.jpg');
+      }
+      #positiveFour_1 {
+        background: url('/images/4.jpg');
+      }
+
+      #negativeThree {
+        background: url('/images/3.jpg');
+      }
+      #positiveThree {
+        background: url('/images/3.jpg');
+      }
+      #positiveThree_1 {
+        background: url('/images/3.jpg');
+      }
+
+      #negativeTwo {
+        background: url('/images/2.jpg');
+      }
+      #positiveTwo {
+        background: url('/images/2.jpg');
+      }
+      #positiveTwo_1 {
+        background: url('/images/2.jpg');
+      }
+
+      #negativeOne {
+        background: url('/images/2.jpg');
+      }
+      #positiveOne {
+        background: url('/images/2.jpg');
+      }
+      #positiveOne_1 {
+        background: url('/images/2.jpg');
+      }
+
+      td {
+        border-style: solid;
+        border-color: black;
+        border-width: 17px;
+        background: url('/images/grass.jpg');
+        padding-top: 118px;
+        padding-left: 138px;
+      }
+
+    </style>
+    <script>
+      app = {};
+
+      $(function() {
+        $("#castle").button({text:false}).click(function() {
+          console.log('clicked')
+        });
+
+        $("#tile").button({text:false}).click(function() {
+          console.log('clicked')
+          var tile = app.tiles.pop();
+          $("#tiles-container").append("<div id='" + tile.name + "' class='draggable'><p>" + tile.name + "</p></div>")
+          $("#tiles-container #" + tile.name + "").draggable({ revert: "invalid", containment: "document", cursor: "move"  });
 
 
-  <!-- Order matters here -->
-  <script type="text/javascript" src="index.js"></script>
-  <script type="text/javascript" src="lib/resources/js/ux/SliderPlugin.js"></script>
-  <script type="text/javascript" src="lib/resources/js/ux/CustomSlider.js"></script>
+        });
 
-  <!-- models -->
-  <script type="text/javascript" src="models/Tile.js"></script>
+        $( "#dragon" ).draggable({ revert: "invalid", containment: "document", cursor: "move"  });
+        $( "td.grid").droppable({accept: ".ui-draggable", drop: function( event, ui ) {
+          $( "#dialog-confirm" ).dialog({
+            resizable: false,
+            height:140,
+            modal: true,
+            buttons: {
+              "Finish": function() {
+                $(".draggable4").removeClass('draggable').addClass('dropped');
 
-  <!-- stores -->
-  <script type="text/javascript" src="stores/Tiles.js"></script>
+                $( this ).dialog( "close" );
+              },
+              Cancel: function() {
+                $( this ).dialog( "close" );
+              }
+            }
+          });
+        }});
 
-  <!-- Navigation views -->
-  <script type="text/javascript" src="views/Viewport.js"></script>
-  <script type="text/javascript" src="views/TopNavigation.js"></script>
-  <script type="text/javascript" src="views/BottomBar.js"></script>
-  <script type="text/javascript" src="views/RightBar.js"></script>
-  <script type="text/javascript" src="views/LeftBar.js"></script>
-  <script type="text/javascript" src="views/TopBar.js"></script>
-  <script type="text/javascript" src="views/Board.js"></script>
-  <script type="text/javascript" src="views/LeftNavigation.js"></script>
+      });
+    </script>
+  </head>
+  <body>
 
-  <script type="text/javascript" src="components/Tile.js"></script>
-  <!-- controllers -->
+    <div id="dialog-confirm" title="Finish Move?">
+      <p><span class="ui-icon ui-icon-alert" style="float: left; margin: 0 7px 20px 0;"></span>Are you sure?</p>
+    </div>
 
-</head>
-<body>
-</body>
+    <div id="toolbar" class="ui-widget-header ui-corner-all">
+      <button id="new_game">New Game</button>
+      <button id="castle">Castle</button>
+      <button id="tile">Tile</button>
+    </div>
+
+    <div id="snaptarget" class="ui-widget-header">
+      <table>
+        <tr>
+          <td class='grid'></td><td class='grid'></td><td class='grid'></td><td class='grid'></td><td class='grid'></td><td class='grid'></td>
+        </tr>
+        <tr>
+          <td class='grid'></td><td class='grid'></td><td class='grid'></td><td class='grid'></td><td class='grid'></td><td class='grid'></td>
+        </tr>
+        <tr>
+          <td class='grid'></td><td class='grid'></td><td class='grid'></td><td class='grid'></td><td class='grid'></td><td class='grid'></td>
+        </tr>
+        <tr>
+          <td class='grid'></td><td class='grid'></td><td class='grid'></td><td class='grid'></td><td class='grid'></td><td class='grid'></td>
+        </tr>
+        <tr>
+          <td class='grid'></td><td class='grid'></td><td class='grid'></td><td class='grid'></td><td class='grid'></td><td class='grid'></td>
+        </tr>
+      </table>
+    </div>
+
+    <br style="clear: both;" />
+
+    <div id="tiles-container">
+      <!--<div id="dragon" class="draggable">-->
+        <!--<p>Dragon</p>-->
+      <!--</div>-->
+    </div>
+
+
+    <script>
+      function generateTiles() {
+        var randomNumbers = this.generateRandomNumbers();
+
+        $.each(tiles, function(index, tile) {
+          tile['random'] = randomNumbers[index];
+        });
+
+        tiles.sort(function(a,b) {
+          return a.random - b.random
+        });
+        app.tiles = tiles;
+      }
+
+      function generateRandomNumbers() {
+        var arr = [];
+        while(arr.length < 22) {
+          var randomNumber = Math.ceil(Math.random()*100);
+          var found = false;
+          for (var i=0; i < arr.length; i++) {
+            if (arr[i] == randomNumber){found=true;break}
+          }
+          if (!found) arr[arr.length]=randomNumber;
+        }
+        return arr;
+      }
+
+      var tiles  = [
+        {
+          id     : 0,
+          name   : 'positiveSix',
+          icon   : 'images/6.png',
+          value  : '6',
+          text   : '+6',
+          random : 1,
+          status : 'store'
+        },
+        {
+          id     : 1,
+          name   : 'positiveSix_1',
+          icon   : 'images/6.png',
+          value  : '6',
+          text   : '+6',
+          random : 1,
+          status : 'store'
+        },
+        {
+          id     : 2,
+          name   : 'positiveFive',
+          icon   : 'images/5.jpg',
+          value  : '5',
+          text   : '+5',
+          random : 1,
+          status : 'store'
+        },
+        {
+          id     : 3,
+          name   : 'positiveFive_1',
+          icon   : 'images/5.jpg',
+          value  : '5',
+          text   : '+5',
+          random : 1,
+          status : 'store'
+        },
+        {
+          id     : 4,
+          name   : 'positiveFour',
+          icon   : 'images/4.jpg',
+          value  : '4',
+          text   : '+4',
+          random : 1,
+          status : 'store'
+        },
+        {
+          id     : 5,
+          name   : 'positiveFour_1',
+          icon   : 'images/4.jpg',
+          value  : '4',
+          text   : '+4',
+          random : 1,
+          status : 'store'
+        },
+        {
+          id     : 6,
+          name   : 'positiveThree',
+          icon   : 'images/3.jpg',
+          value  : '3',
+          text   : '+3',
+          random : 1,
+          status : 'store'
+        },
+        {
+          id     : 7,
+          name   : 'positiveThree_1',
+          icon   : 'images/3.jpg',
+          value  : '3',
+          text   : '+3',
+          random : 1,
+          status : 'store'
+        },
+        {
+          id     : 8,
+          name   : 'positiveTwo',
+          icon   : 'images/2.jpg',
+          value  : '2',
+          text   : '+2',
+          random : 1,
+          status : 'store'
+        },
+        {
+          id     : 9,
+          name   : 'positiveTwo_1',
+          icon   : 'images/2.jpg',
+          value  : '2',
+          text   : '+2',
+          random : 1,
+          status : 'store'
+        },
+        {
+          id     : 10,
+          name   : 'positiveOne',
+          icon   : 'images/1.jpg',
+          value  : '1',
+          text   : '+1',
+          random : 1,
+          status : 'store'
+        },
+        {
+          id     : 11,
+          name   : 'positiveOne_1',
+          icon   : 'images/1.jpg',
+          value  : 1,
+          text   : '+1',
+          random : 1,
+          status : 'store'
+        },
+        {
+          id     : 12,
+          name   : 'negativeOne',
+          icon   : 'images/1.jpg',
+          value  : -1,
+          text   : '-1',
+          random : 1,
+          status : 'store'
+        },
+        {
+          id     : 13,
+          name   : 'negativeTwo',
+          icon   : 'images/2.jpg',
+          value  : -2,
+          text   : '-2',
+          random : 1,
+          status : 'store'
+        },
+        {
+          id     : 14,
+          name   : 'negativeThree',
+          icon   : 'images/3.jpg',
+          value  : -3,
+          text   : '-3',
+          random : 1,
+          status : 'store'
+        },
+        {
+          id     : 15,
+          name   : 'negativeFour',
+          icon   : 'images/4.jpg',
+          value  : -4,
+          text   : '-4',
+          random : 1,
+          status : 'store'
+        },
+        {
+          id     : 16,
+          name   : 'negativeFive',
+          icon   : 'images/5.jpg',
+          value  : -5,
+          text   : '-5',
+          random : 1,
+          status : 'store'
+        },
+        {
+          id     : 17,
+          name   : 'negativeSix',
+          icon   : 'images/6.png',
+          value  : -6,
+          text   : '-6',
+          random : 1,
+          status : 'store'
+        },
+        {
+          id     : 18,
+          name   : 'dragon',
+          icon   : 'images/dragon.png',
+          value  : 0,
+          text   : 'Dragon',
+          random : 1,
+          status : 'store'
+        },
+        {
+          id     : 19,
+          name   : 'goldMine',
+          icon   : 'images/goldmine.png',
+          value  : 0,
+          text   : 'Gold<br/>Mine',
+          random : 1,
+          status : 'store'
+        },
+        {
+          id     : 20,
+          name   : 'mountain',
+          icon   : 'images/mountain.svg',
+          value  : 0,
+          text   : 'Mountain',
+          random : 1,
+          status : 'store'
+        },
+        {
+          id     : 21,
+          name   : 'mountain_1',
+          icon   : 'images/mountain.svg',
+          value  : 0,
+          text   : 'Mountain',
+          random : 1,
+          status : 'store'
+        }
+      ];
+    </script>
+
+  </body>
 </html>
