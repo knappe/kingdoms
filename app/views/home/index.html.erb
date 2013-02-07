@@ -30,7 +30,11 @@
         background-color: #563616;
       }
 
-      #mountain#mountain_1 {
+      #mountain {
+        background: url('/images/mountain.svg');
+      }
+
+      #mountain_1 {
         background: url('/images/mountain.svg');
       }
 
@@ -110,14 +114,33 @@
         padding-top: 118px;
         padding-left: 138px;
       }
+      #castle-container {
+        float: right;
+        height: 300px;
+        width: 200px;
+        background-color: blue
+      ;
+      }
 
     </style>
     <script>
       app = {};
 
       $(function() {
+
+        $("#new_game").button({text:false}).click(function() {
+          console.log('clicked')
+          numberOfPlayers();
+          generateTiles();
+          var tile = app.tiles.pop();
+          $("#tiles-container").append("<div id='" + tile.name + "' class='draggable'><p>" + tile.name + "</p></div>")
+          $("#tiles-container #" + tile.name + "").draggable({ revert: "invalid", containment: "document", cursor: "move"  });
+        });
         $("#castle").button({text:false}).click(function() {
           console.log('clicked')
+          selectCastle();
+
+
         });
 
         $("#tile").button({text:false}).click(function() {
@@ -125,8 +148,6 @@
           var tile = app.tiles.pop();
           $("#tiles-container").append("<div id='" + tile.name + "' class='draggable'><p>" + tile.name + "</p></div>")
           $("#tiles-container #" + tile.name + "").draggable({ revert: "invalid", containment: "document", cursor: "move"  });
-
-
         });
 
         $( "#dragon" ).draggable({ revert: "invalid", containment: "document", cursor: "move"  });
@@ -153,8 +174,16 @@
   </head>
   <body>
 
-    <div id="dialog-confirm" title="Finish Move?">
+    <div id="dialog-confirm" title="Finish Move?" class="hidden">
       <p><span class="ui-icon ui-icon-alert" style="float: left; margin: 0 7px 20px 0;"></span>Are you sure?</p>
+    </div>
+
+    <div id="number-players" title="Number Players?" class="hidden">
+      <p><span style="float: left; margin: 0 7px 20px 0;"></span></p>
+    </div>
+
+    <div id="select-castle" title="Castle Multiplier?" class="hidden">
+      <p><span style="float: left; margin: 0 7px 20px 0;"></span></p>
     </div>
 
     <div id="toolbar" class="ui-widget-header ui-corner-all">
@@ -163,7 +192,8 @@
       <button id="tile">Tile</button>
     </div>
 
-    <div id="snaptarget" class="ui-widget-header">
+
+    <div id="snaptarget" class="ui-widget-header" style="float:left">
       <table>
         <tr>
           <td class='grid'></td><td class='grid'></td><td class='grid'></td><td class='grid'></td><td class='grid'></td><td class='grid'></td>
@@ -181,6 +211,8 @@
           <td class='grid'></td><td class='grid'></td><td class='grid'></td><td class='grid'></td><td class='grid'></td><td class='grid'></td>
         </tr>
       </table>
+    </div>
+    <div id="castle-container" style="float:right;">
     </div>
 
     <br style="clear: both;" />
@@ -218,6 +250,392 @@
         }
         return arr;
       }
+
+      function numberOfPlayers() {
+        $( "#number-players").dialog({
+          resizable: false,
+          height:140,
+          modal: true,
+          buttons: {
+            "2": function() {
+              app.playerCastles = {red: {castles: redCastles}, blue: {castles :blueCastles}};
+              $( this ).dialog( "close" );
+            },
+            "3": function() {
+              app.playerCastles = {red: {castles: redCastles}, blue: {castles :blueCastles}, yellow: {castles: yellowCastles}};
+              $( this ).dialog( "close" );
+            },
+            "4": function() {
+              app.playerCastles = {red: {castles: redCastles}, blue: {castles :blueCastles}, yellow: {castles: yellowCastles}, green: {castles: greenCastles}};
+              $( this ).dialog( "close" );
+            }
+          }
+        });
+      }
+
+      function selectCastle() {
+        $( "#select-castle").dialog({
+          resizable: false,
+          height:140,
+          modal: true,
+          buttons: {
+            "1": function() {
+              var player = getCurrentPlayer();
+              var castles = app.playerCastles[player].castles;
+              var castle;
+              for (var i=0; i<castles.length; i++) {
+                if (castles[i].value === '1') {
+                  castle = castles[i];
+                  var tmp = [];
+                  for (var j=0; j<castles.length; j++) {
+                    if (castles[j].id != castle.id)
+                    tmp.push(castles[j])
+                  }
+                  app.playerCastles[player].castles = tmp;
+                  break
+                }
+              }
+              $( this ).dialog( "close" );
+              $("#castle-container").append("<div id='" + castle.name + "' class='draggable'><p>" + castle.name + "</p></div>")
+              $("#castle-container #" + castle.name + "").draggable({ revert: "invalid", containment: "document", cursor: "move"  });
+            },
+            "2": function() {
+              var player = getCurrentPlayer();
+              var castles = app.playerCastles[player].castles;
+              var castle;
+              for (var i=0; i<castles.length; i++) {
+                if (castles[i].value === '2') {
+                  castle = castles[i];
+                  var tmp = [];
+                  for (var j=0; j<castles.length; j++) {
+                    if (castles[j].id != castle.id)
+                      tmp.push(castles[j])
+                  }
+                  app.playerCastles[player].castles = tmp;
+                  break
+                }
+              }
+              $( this ).dialog( "close" );
+              $("#castle-container").append("<div id='" + castle.name + "' class='draggable'><p>" + castle.name + "</p></div>")
+              $("#castle-container #" + castle.name + "").draggable({ revert: "invalid", containment: "document", cursor: "move"  });
+            },
+            "3": function() {
+              var player = getCurrentPlayer();
+              var castles = app.playerCastles[player].castles;
+              var castle;
+              for (var i=0; i<castles.length; i++) {
+                if (castles[i].value === '3') {
+                  castle = castles[i];
+                  var tmp = [];
+                  for (var j=0; j<castles.length; j++) {
+                    if (castles[j].id != castle.id)
+                      tmp.push(castles[j])
+                  }
+                  app.playerCastles[player].castles = tmp;
+                  break
+                }
+              }
+              $( this ).dialog( "close" );
+              $("#castle-container").append("<div id='" + castle.name + "' class='draggable'><p>" + castle.name + "</p></div>")
+              $("#castle-container #" + castle.name + "").draggable({ revert: "invalid", containment: "document", cursor: "move"  });
+            },
+            "4": function() {
+              var player = getCurrentPlayer();
+              var castles = app.playerCastles[player].castles;
+              var castle;
+              for (var i=0; i<castles.length; i++) {
+                if (castles[i].value === '4') {
+                  castle = castles[i];
+                  var tmp = [];
+                  for (var j=0; j<castles.length; j++) {
+                    if (castles[j].id != castle.id)
+                      tmp.push(castles[j])
+                  }
+                  app.playerCastles[player].castles = tmp;
+                  break
+                }
+              }
+              $( this ).dialog( "close" );
+              $("#castle-container").append("<div id='" + castle.name + "' class='draggable'><p>" + castle.name + "</p></div>")
+              $("#castle-container #" + castle.name + "").draggable({ revert: "invalid", containment: "document", cursor: "move"  });
+            }
+          }
+        });
+      }
+
+
+
+      function getCurrentPlayer() {
+        return 'red'
+      }
+
+      // this doesn't work, color is always set to the last color
+      function generateCastles(players) {
+        var playerCastles = [];
+        var colors = ['red', 'green', 'blue', 'yellow'];
+        for (var i=0; i < players; i++) {
+          var color = colors[i];
+          for(var j = 0; j< castles.length; j++) {
+            var castle = castles[j];
+            castle['color'] = color;
+          }
+          playerCastles.push({color: color, castles: castles});
+        }
+        return playerCastles
+      }
+
+      var redCastles = [
+        {
+          id    : 0,
+          name  : 'oneCastle',
+          value : '1',
+          color : 'red'
+        },
+        {
+          id    : 1,
+          name  : 'oneCastle_1',
+          value : '1',
+          color : 'red'
+        },
+        {
+          id    : 2,
+          name  : 'oneCastle_2',
+          value : '1',
+          color : 'red'
+        },
+        {
+          id    : 3,
+          name  : 'oneCastle_3',
+          value : '1',
+          color : 'red'
+        },
+        {
+          id    : 4,
+          name  : 'twoCastle',
+          value : '2',
+          color : 'red'
+        },
+        {
+          id    : 5,
+          name  : 'twoCastle_1',
+          value : '2',
+          color : 'red'
+        },
+        {
+          id    : 6,
+          name  : 'twoCastle_2',
+          value : '2',
+          color : 'red'
+        },
+        {
+          id    : 7,
+          name  : 'threeCastle',
+          value : '3',
+          color : 'red'
+        },
+        {
+          id    : 8,
+          name  : 'threeCastle_1',
+          value : '3',
+          color : 'red'
+        },
+        {
+          id    : 9,
+          name  : 'fourCastle',
+          value : '4',
+          color : 'red'
+        }
+      ];
+
+      var blueCastles = [
+        {
+          id    : 0,
+          name  : 'oneCastle',
+          value : '1',
+          color : 'blue'
+        },
+        {
+          id    : 2,
+          name  : 'oneCastle_1',
+          value : '1',
+          color : 'blue'
+        },
+        {
+          id    : 1,
+          name  : 'oneCastle_2',
+          value : '1',
+          color : 'blue'
+        },
+        {
+          id    : 3,
+          name  : 'oneCastle_3',
+          value : '1',
+          color : 'blue'
+        },
+        {
+          id    : 4,
+          name  : 'twoCastle',
+          value : '2',
+          color : 'blue'
+        },
+        {
+          id    : 5,
+          name  : 'twoCastle_1',
+          value : '2',
+          color : 'blue'
+        },
+        {
+          id    : 6,
+          name  : 'twoCastle_2',
+          value : '2',
+          color : 'blue'
+        },
+        {
+          id    : 7,
+          name  : 'threeCastle',
+          value : '3',
+          color : 'blue'
+        },
+        {
+          id    : 8,
+          name  : 'threeCastle_1',
+          value : '3',
+          color : 'blue'
+        },
+        {
+          id    : 9,
+          name  : 'fourCastle',
+          value : '4',
+          color : 'blue'
+        }
+      ];
+
+      var yellowCastles = [
+        {
+          id    : 0,
+          name  : 'oneCastle',
+          value : '1',
+          color : 'yellow'
+        },
+        {
+          id    : 1,
+          name  : 'oneCastle_1',
+          value : '1',
+          color : 'yellow'
+        },
+        {
+          id    : 2,
+          name  : 'oneCastle_2',
+          value : '1',
+          color : 'yellow'
+        },
+        {
+          id    : 3,
+          name  : 'oneCastle_3',
+          value : '1',
+          color : 'yellow'
+        },
+        {
+          id    : 4,
+          name  : 'twoCastle',
+          value : '2',
+          color : 'yellow'
+        },
+        {
+          id    : 5,
+          name  : 'twoCastle_1',
+          value : '2',
+          color : 'yellow'
+        },
+        {
+          id    : 6,
+          name  : 'twoCastle_2',
+          value : '2',
+          color : 'yellow'
+        },
+        {
+          id    : 7,
+          name  : 'threeCastle',
+          value : '3',
+          color : 'yellow'
+        },
+        {
+          id    : 8,
+          name  : 'threeCastle_1',
+          value : '3',
+          color : 'yellow'
+        },
+        {
+          id    : 9,
+          name  : 'fourCastle',
+          value : '4',
+          color : 'yellow'
+        }
+      ];
+
+      var greenCastles = [
+        {
+          id    : 0,
+          name  : 'oneCastle',
+          value : '1',
+          color : 'green'
+        },
+        {
+          id    : 1,
+          name  : 'oneCastle_1',
+          value : '1',
+          color : 'green'
+        },
+        {
+          id    : 2,
+          name  : 'oneCastle_2',
+          value : '1',
+          color : 'green'
+        },
+        {
+          id    : 3,
+          name  : 'oneCastle_3',
+          value : '1',
+          color : 'green'
+        },
+        {
+          id    : 4,
+          name  : 'twoCastle',
+          value : '2',
+          color : 'green'
+        },
+        {
+          id    : 5,
+          name  : 'twoCastle_1',
+          value : '2',
+          color : 'green'
+        },
+        {
+          id    : 6,
+          name  : 'twoCastle_2',
+          value : '2',
+          color : 'green'
+        },
+        {
+          id    : 7,
+          name  : 'threeCastle',
+          value : '3',
+          color : 'green'
+        },
+        {
+          id    : 8,
+          name  : 'threeCastle_1',
+          value : '3',
+          color : 'green'
+        },
+        {
+          id    : 9,
+          name  : 'fourCastle',
+          value : '4',
+          color : 'green'
+        }
+      ];
+
 
       var tiles  = [
         {
