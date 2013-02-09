@@ -25,7 +25,7 @@
       }
 
       #tiles-container {
-        width: 300px;
+        width: 1000px;
         height: 200px;
         background-color: #563616;
       }
@@ -38,7 +38,7 @@
         background: url('/images/mountain.svg');
       }
 
-      #goldmine {
+      #goldMine {
         background: url('/images/goldmine.png');
       }
 
@@ -116,7 +116,7 @@
       }
       #castle-container {
         float: right;
-        height: 300px;
+        height: 895px;
         width: 200px;
         background-color: blue
       ;
@@ -129,7 +129,7 @@
       $(function() {
 
         $("#new_game").button({text:false}).click(function() {
-          console.log('clicked')
+          app.startedGame = true;
           numberOfPlayers();
           generateTiles();
           var tile = app.tiles.pop();
@@ -137,17 +137,23 @@
           $("#tiles-container #" + tile.name + "").draggable({ revert: "invalid", containment: "document", cursor: "move"  });
         });
         $("#castle").button({text:false}).click(function() {
-          console.log('clicked')
+          if (app.startedGame) {
           selectCastle();
-
+          } else {
+            alert("Must start a new game.");
+          }
 
         });
 
         $("#tile").button({text:false}).click(function() {
-          console.log('clicked')
-          var tile = app.tiles.pop();
-          $("#tiles-container").append("<div id='" + tile.name + "' class='draggable'><p>" + tile.name + "</p></div>")
-          $("#tiles-container #" + tile.name + "").draggable({ revert: "invalid", containment: "document", cursor: "move"  });
+          if (app.startedGame) {
+            var tile = app.tiles.pop();
+            $("#tiles-container").append("<div id='" + tile.name + "' class='draggable'><p>" + tile.name + "</p></div>")
+            $("#tiles-container #" + tile.name + "").draggable({ revert: "invalid", containment: "document", cursor: "move"  });
+          } else {
+            alert("Must start a new game.");
+          }
+
         });
 
         $( "#dragon" ).draggable({ revert: "invalid", containment: "document", cursor: "move"  });
