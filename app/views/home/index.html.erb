@@ -18,7 +18,6 @@
         text-align: center;
         margin: 0 auto;
         margin-top: 20px;
-        /*margin-right: 100px;*/
       }
       tr {
         padding: 3px;
@@ -118,8 +117,7 @@
         float: right;
         height: 895px;
         width: 200px;
-        background-color: blue
-      ;
+        background-color: blue;
       }
 
     </style>
@@ -224,15 +222,12 @@
     <br style="clear: both;" />
 
     <div id="tiles-container">
-      <!--<div id="dragon" class="draggable">-->
-        <!--<p>Dragon</p>-->
-      <!--</div>-->
     </div>
 
 
     <script>
       function generateTiles() {
-        var randomNumbers = this.generateRandomNumbers();
+        var randomNumbers = generateRandomNumbers(22);
 
         $.each(tiles, function(index, tile) {
           tile['random'] = randomNumbers[index];
@@ -244,9 +239,9 @@
         app.tiles = tiles;
       }
 
-      function generateRandomNumbers() {
+      function generateRandomNumbers(max) {
         var arr = [];
-        while(arr.length < 22) {
+        while(arr.length < max) {
           var randomNumber = Math.ceil(Math.random()*100);
           var found = false;
           for (var i=0; i < arr.length; i++) {
@@ -265,18 +260,30 @@
           buttons: {
             "2": function() {
               app.playerCastles = {red: {castles: redCastles}, blue: {castles :blueCastles}};
+              setupPlayers(2);
               $( this ).dialog( "close" );
+
             },
             "3": function() {
               app.playerCastles = {red: {castles: redCastles}, blue: {castles :blueCastles}, yellow: {castles: yellowCastles}};
+              setupPlayers(3);
               $( this ).dialog( "close" );
             },
             "4": function() {
               app.playerCastles = {red: {castles: redCastles}, blue: {castles :blueCastles}, yellow: {castles: yellowCastles}, green: {castles: greenCastles}};
+              setupPlayers(4);
               $( this ).dialog( "close" );
+
             }
           }
         });
+      }
+
+      function setupPlayers(numPlayers) {
+        var players = getPlayerColors(numPlayers);
+        // Not a great random algorithm, but it works for our purposes
+        app.players = players.sort(function() { return 0.5 - Math.random();});
+        app.currentPlayer = app.players[0];
       }
 
       function selectCastle() {
@@ -369,10 +376,34 @@
         });
       }
 
+      function changePlayer() {
+        for(i = 0; i < app.players.length; i++) {
+          if (app.currentPlayer === app.players[i]) {
+            if ( (i + 1) === app.players.length) {
+              app.currentPlayer =  app.players[0]
+              break
+            } else {
+              app.currentPlayer = app.players[i+1]
+              break
+            }
+          }
+        }
+      }
 
 
       function getCurrentPlayer() {
-        return 'red'
+        return app.currentPlayer;
+      }
+
+      function getPlayerColors(numPlayers) {
+        switch(numPlayers) {
+          case 2:
+            return ['red', 'blue'];
+          case 3:
+            return ['red', 'blue', 'yellow'];
+          case 4:
+            return ['red', 'blue', 'yellow', 'green'];
+        }
       }
 
       // this doesn't work, color is always set to the last color
