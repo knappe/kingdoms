@@ -154,13 +154,14 @@
       $(function() {
 
         $("#new_game").button({text:false}).click(function() {
+          clearBoard();
           app.startedGame = true;
-          app.playerCastles = {}
+          app.playerCastles = {};
           numberOfPlayers();
           generateTiles();
           var tile = app.tiles.pop();
 
-          $("#tiles-container").append("<div id='" + tile.name + "' class='draggable'><p>" + tile.text + "</p></div>");
+          $("#tiles-container").append("<div id='" + tile.name + "' class='draggable tile'><p>" + tile.text + "</p></div>");
           $("#tiles-container #" + tile.name + "").draggable({ revert: "invalid", containment: "document", cursor: "move"  });
         });
         $("#castle").button({text:false}).click(function() {
@@ -174,7 +175,7 @@
         $("#tile").button({text:false}).click(function() {
           if (app.startedGame) {
             var tile = app.tiles.pop();
-            $("#tiles-container").append("<div id='" + tile.name + "' class='draggable'><p>" + tile.text + "</p></div>")
+            $("#tiles-container").append("<div id='" + tile.name + "' class='draggable tile'><p>" + tile.text + "</p></div>")
             $("#tiles-container #" + tile.name + "").draggable({ revert: "invalid", containment: "document", cursor: "move"  });
 
           } else {
@@ -263,6 +264,16 @@
 
 
     <script>
+      function clearBoard() {
+        $.each($('.tile'), function(index, tile) {
+          tile.remove();
+        });
+
+        $.each($('.castle'), function(index, castle) {
+          castle.remove();
+        });
+      }
+
       function generateTiles() {
         var randomNumbers = generateRandomNumbers(22);
 
