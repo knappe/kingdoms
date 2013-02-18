@@ -157,16 +157,20 @@
           clearBoard();
           app.startedGame = true;
           app.playerCastles = {};
+          app.moves = 30;
+          app.epoch = 1;
+
           numberOfPlayers();
           generateTiles();
           var tile = app.tiles.pop();
+          app.moves = app.moves - 1;
 
           $("#tiles-container").append("<div id='" + tile.name + "' class='draggable tile'><p>" + tile.text + "</p></div>");
           $("#tiles-container #" + tile.name + "").draggable({ revert: "invalid", containment: "document", cursor: "move"  });
         });
         $("#castle").button({text:false}).click(function() {
           if (app.startedGame) {
-          selectCastle();
+            selectCastle();
           } else {
             alert("Must start a new game.");
           }
@@ -177,6 +181,7 @@
             var tile = app.tiles.pop();
             $("#tiles-container").append("<div id='" + tile.name + "' class='draggable tile'><p>" + tile.text + "</p></div>")
             $("#tiles-container #" + tile.name + "").draggable({ revert: "invalid", containment: "document", cursor: "move"  });
+            app.moves = app.moves - 1;
 
           } else {
             alert("Must start a new game.");
@@ -195,6 +200,11 @@
             modal: true,
             buttons: {
               "Finish": function() {
+
+                if (app.moves <= 0) {
+                  alert('end of epoch ' + app.epoch);
+                }
+
                 var id = "#" + ui.helper[0].id;
                 $(id).draggable("disable");
                 $( this ).dialog( "close" );
@@ -377,6 +387,7 @@
         $("#castle-container").append("<div id='" + player + "-" + castle.name + "' class='draggable castle'><p>" + castle.name + "</p></div>");
         $("#" + player + "-" + castle.name).addClass(player + "-castle");
         $("#castle-container #" + player + "-" + castle.name + "").draggable({ revert: "invalid", containment: "document", cursor: "move"  });
+        app.moves = app.moves - 1;
       }
 
       function changePlayer() {
