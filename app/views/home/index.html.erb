@@ -100,13 +100,13 @@
       }
 
       #negativeOne {
-        background: url('/images/2.jpg');
+        background: url('/images/1.jpg');
       }
       #positiveOne {
-        background: url('/images/2.jpg');
+        background: url('/images/1.jpg');
       }
       #positiveOne_1 {
-        background: url('/images/2.jpg');
+        background: url('/images/1.jpg');
       }
 
       .castle {
@@ -139,6 +139,13 @@
         width: 200px;
         background-color: blue;
       }
+      div.draggable p {
+        font-weight: bold;
+        color: rgb(245, 102, 6);
+        font-size: 28px;
+        text-align: center;
+        vertical-align: middle;
+      }
 
     </style>
     <script>
@@ -153,7 +160,7 @@
           generateTiles();
           var tile = app.tiles.pop();
 
-          $("#tiles-container").append("<div id='" + tile.name + "' class='draggable'><p>" + tile.name + "</p></div>");
+          $("#tiles-container").append("<div id='" + tile.name + "' class='draggable'><p>" + tile.text + "</p></div>");
           $("#tiles-container #" + tile.name + "").draggable({ revert: "invalid", containment: "document", cursor: "move"  });
         });
         $("#castle").button({text:false}).click(function() {
@@ -167,15 +174,19 @@
         $("#tile").button({text:false}).click(function() {
           if (app.startedGame) {
             var tile = app.tiles.pop();
-            $("#tiles-container").append("<div id='" + tile.name + "' class='draggable'><p>" + tile.name + "</p></div>")
+            $("#tiles-container").append("<div id='" + tile.name + "' class='draggable'><p>" + tile.text + "</p></div>")
             $("#tiles-container #" + tile.name + "").draggable({ revert: "invalid", containment: "document", cursor: "move"  });
+
           } else {
             alert("Must start a new game.");
           }
 
+          if (app.tiles.length == 0) {
+            $("#tile").button({'disabled': true});
+          }
+
         });
 
-        $( "#dragon" ).draggable({ revert: "invalid", containment: "document", cursor: "move"  });
         $( "td.grid").droppable({accept: ".ui-draggable", drop: function( event, ui ) {
           $( "#dialog-confirm" ).dialog({
             resizable: false,
@@ -193,7 +204,6 @@
                 var id = "#" + ui.helper[0].id;
                 $(id).css('left', 0);
                 $(id).css('top', 0);
-//                $( id ).appendTo($("#tiles-container"));
                 $( this ).dialog( "close" );
               }
             }
