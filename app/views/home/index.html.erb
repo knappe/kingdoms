@@ -148,6 +148,7 @@
 
         $("#new_game").button({text:false}).click(function() {
           app.startedGame = true;
+          app.playerCastles = {}
           numberOfPlayers();
           generateTiles();
           var tile = app.tiles.pop();
@@ -285,33 +286,30 @@
           modal: true,
           buttons: {
             "2": function() {
-              app.playerCastles = {red: {castles: redCastles}, blue: {castles :blueCastles}};
-              setupPlayers(2);
-              $( this ).dialog( "close" );
-              alert("It is " + app.currentPlayer + "\'s turn");
+              setupPlayers(2, this);
             },
             "3": function() {
-              app.playerCastles = {red: {castles: redCastles}, blue: {castles :blueCastles}, yellow: {castles: yellowCastles}};
-              setupPlayers(3);
-              $( this ).dialog( "close" );
-              alert("It is " + app.currentPlayer + "\'s turn");
+              setupPlayers(3, this);
             },
             "4": function() {
-              app.playerCastles = {red: {castles: redCastles}, blue: {castles :blueCastles}, yellow: {castles: yellowCastles}, green: {castles: greenCastles}};
-              setupPlayers(4);
-              $( this ).dialog( "close" );
-              alert("It is " + app.currentPlayer + "\'s turn");
-
+              setupPlayers(4, this);
             }
           }
         });
       }
 
-      function setupPlayers(numPlayers) {
+      function setupPlayers(numPlayers, dialogBox) {
         var players = getPlayerColors(numPlayers);
         // Not a great random algorithm, but it works for our purposes
         app.players = players.sort(function() { return 0.5 - Math.random();});
         app.currentPlayer = app.players[0];
+        var castles = generateCastles(numPlayers);
+        for (var i = 0; i < castles.length; i++) {
+          app.playerCastles[castles[i].color] = {'castles' : castles[i].castles}
+        }
+        $( dialogBox ).dialog( "close" );
+        alert("It is " + app.currentPlayer + "\'s turn");
+
       }
 
       function selectCastle() {
@@ -337,7 +335,7 @@
         });
       }
 
-      function getCastle(type, dialog) {
+      function getCastle(type, dialogBox) {
         var player = getCurrentPlayer();
         var castles = app.playerCastles[player].castles;
         var castle;
@@ -346,14 +344,15 @@
             castle = castles[i];
             var tmp = [];
             for (var j=0; j<castles.length; j++) {
-              if (castles[j].id != castle.id)
+              if (castles[j].id != castle.id) {
                 tmp.push(castles[j])
+              }
             }
             app.playerCastles[player].castles = tmp;
             break
           }
         }
-        $( dialog ).dialog( "close" );
+        $( dialogBox ).dialog( "close" );
         $("#castle-container").append("<div id='" + player + "-" + castle.name + "' class='draggable castle'><p>" + castle.name + "</p></div>");
         $("#" + player + "-" + castle.name).addClass(player + "-castle");
         $("#castle-container #" + player + "-" + castle.name + "").draggable({ revert: "invalid", containment: "document", cursor: "move"  });
@@ -388,10 +387,9 @@
         }
       }
 
-      // this doesn't work, color is always set to the last color
       function generateCastles(players) {
         var playerCastles = [];
-        var colors = ['red', 'green', 'blue', 'yellow'];
+        var colors = getPlayerColors(players);
         for (var i=0; i < players; i++) {
           var color = colors[i];
           for(var j = 0; j< castles.length; j++) {
@@ -402,6 +400,69 @@
         }
         return playerCastles
       }
+
+      var castles = [
+        {
+          id    : 0,
+          name  : 'oneCastle',
+          value : '1',
+          color : 'red'
+        },
+        {
+          id    : 1,
+          name  : 'oneCastle_1',
+          value : '1',
+          color : 'red'
+        },
+        {
+          id    : 2,
+          name  : 'oneCastle_2',
+          value : '1',
+          color : 'red'
+        },
+        {
+          id    : 3,
+          name  : 'oneCastle_3',
+          value : '1',
+          color : 'red'
+        },
+        {
+          id    : 4,
+          name  : 'twoCastle',
+          value : '2',
+          color : 'red'
+        },
+        {
+          id    : 5,
+          name  : 'twoCastle_1',
+          value : '2',
+          color : 'red'
+        },
+        {
+          id    : 6,
+          name  : 'twoCastle_2',
+          value : '2',
+          color : 'red'
+        },
+        {
+          id    : 7,
+          name  : 'threeCastle',
+          value : '3',
+          color : 'red'
+        },
+        {
+          id    : 8,
+          name  : 'threeCastle_1',
+          value : '3',
+          color : 'red'
+        },
+        {
+          id    : 9,
+          name  : 'fourCastle',
+          value : '4',
+          color : 'red'
+        }
+      ];
 
       var redCastles = [
         {
