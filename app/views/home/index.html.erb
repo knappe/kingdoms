@@ -29,6 +29,10 @@
         background-color: #563616;
       }
 
+      .ui-state-disabled {
+        opacity: 1;
+      }
+      
       #mountain {
         background: url('/images/mountain.svg');
       }
@@ -131,7 +135,8 @@
           numberOfPlayers();
           generateTiles();
           var tile = app.tiles.pop();
-          $("#tiles-container").append("<div id='" + tile.name + "' class='draggable'><p>" + tile.name + "</p></div>")
+
+          $("#tiles-container").append("<div id='" + tile.name + "' class='draggable'><p>" + tile.name + "</p></div>");
           $("#tiles-container #" + tile.name + "").draggable({ revert: "invalid", containment: "document", cursor: "move"  });
         });
         $("#castle").button({text:false}).click(function() {
@@ -156,17 +161,26 @@
 
         $( "#dragon" ).draggable({ revert: "invalid", containment: "document", cursor: "move"  });
         $( "td.grid").droppable({accept: ".ui-draggable", drop: function( event, ui ) {
+          console.log('event:', event);
+          console.log('ui:', ui);
           $( "#dialog-confirm" ).dialog({
             resizable: false,
             height:140,
             modal: true,
             buttons: {
               "Finish": function() {
-                $(".draggable4").removeClass('draggable').addClass('dropped');
-
+                var id = "#" + ui.helper[0].id;
+                $(id).draggable("disable");
                 $( this ).dialog( "close" );
+                changePlayer();
+                alert("It is " + app.currentPlayer + "\'s turn")
               },
               Cancel: function() {
+
+                var id = "#" + ui.helper[0].id;
+                $(id).css('left', 0);
+                $(id).css('top', 0);
+//                $( id ).appendTo($("#tiles-container"));
                 $( this ).dialog( "close" );
               }
             }
@@ -262,17 +276,19 @@
               app.playerCastles = {red: {castles: redCastles}, blue: {castles :blueCastles}};
               setupPlayers(2);
               $( this ).dialog( "close" );
-
+              alert("It is " + app.currentPlayer + "\'s turn");
             },
             "3": function() {
               app.playerCastles = {red: {castles: redCastles}, blue: {castles :blueCastles}, yellow: {castles: yellowCastles}};
               setupPlayers(3);
               $( this ).dialog( "close" );
+              alert("It is " + app.currentPlayer + "\'s turn");
             },
             "4": function() {
               app.playerCastles = {red: {castles: redCastles}, blue: {castles :blueCastles}, yellow: {castles: yellowCastles}, green: {castles: greenCastles}};
               setupPlayers(4);
               $( this ).dialog( "close" );
+              alert("It is " + app.currentPlayer + "\'s turn");
 
             }
           }
@@ -309,7 +325,7 @@
                 }
               }
               $( this ).dialog( "close" );
-              $("#castle-container").append("<div id='" + castle.name + "' class='draggable'><p>" + castle.name + "</p></div>")
+              $("#castle-container").append("<div id='" + castle.name + "' class='draggable'><p>" + castle.name + "</p></div>");
               $("#castle-container #" + castle.name + "").draggable({ revert: "invalid", containment: "document", cursor: "move"  });
             },
             "2": function() {
@@ -329,7 +345,7 @@
                 }
               }
               $( this ).dialog( "close" );
-              $("#castle-container").append("<div id='" + castle.name + "' class='draggable'><p>" + castle.name + "</p></div>")
+              $("#castle-container").append("<div id='" + castle.name + "' class='draggable'><p>" + castle.name + "</p></div>");
               $("#castle-container #" + castle.name + "").draggable({ revert: "invalid", containment: "document", cursor: "move"  });
             },
             "3": function() {
@@ -349,7 +365,7 @@
                 }
               }
               $( this ).dialog( "close" );
-              $("#castle-container").append("<div id='" + castle.name + "' class='draggable'><p>" + castle.name + "</p></div>")
+              $("#castle-container").append("<div id='" + castle.name + "' class='draggable'><p>" + castle.name + "</p></div>");
               $("#castle-container #" + castle.name + "").draggable({ revert: "invalid", containment: "document", cursor: "move"  });
             },
             "4": function() {
@@ -380,16 +396,15 @@
         for(i = 0; i < app.players.length; i++) {
           if (app.currentPlayer === app.players[i]) {
             if ( (i + 1) === app.players.length) {
-              app.currentPlayer =  app.players[0]
+              app.currentPlayer =  app.players[0];
               break
             } else {
-              app.currentPlayer = app.players[i+1]
+              app.currentPlayer = app.players[i+1];
               break
             }
           }
         }
       }
-
 
       function getCurrentPlayer() {
         return app.currentPlayer;
