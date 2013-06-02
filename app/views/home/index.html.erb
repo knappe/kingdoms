@@ -162,6 +162,7 @@
 
           numberOfPlayers();
           generateTiles();
+          buildGrid(6,5);
           var tile = app.tiles.pop();
           app.moves = app.moves - 1;
 
@@ -205,7 +206,15 @@
                   alert('end of epoch ' + app.epoch);
                 }
 
+                var position = event.target.id;
                 var id = "#" + ui.helper[0].id;
+
+                if (id.indexOf('Castle') !== -1) {
+                  app.grid[position.split('-')[0]][position.split('-')[1]] = {'castle': {'color': app.currentPlayer, 'value': determineCastleValue(id) }}
+                } else {
+                  app.grid[position.split('-')[0]][position.split('-')[1]] = {'tile': {'value':ui.helper[0].innerText}};
+                }
+
                 $(id).draggable("disable");
                 $( this ).dialog( "close" );
                 changePlayer();
@@ -248,19 +257,19 @@
     <div id="snaptarget" class="ui-widget-header" style="float:left">
       <table>
         <tr>
-          <td class='grid'></td><td class='grid'></td><td class='grid'></td><td class='grid'></td><td class='grid'></td><td class='grid'></td>
+          <td id="0-0" class='grid'></td><td id="0-1" class='grid'></td><td id="0-2" class='grid'></td><td id="0-3" class='grid'></td><td id="0-4" class='grid'></td><td id="0-5" class='grid'></td>
         </tr>
         <tr>
-          <td class='grid'></td><td class='grid'></td><td class='grid'></td><td class='grid'></td><td class='grid'></td><td class='grid'></td>
+          <td id="1-0" class='grid'></td><td id="1-1" class='grid'></td><td id="1-2" class='grid'></td><td id="1-3" class='grid'></td><td id="1-4" class='grid'></td><td id="1-5" class='grid'></td>
         </tr>
         <tr>
-          <td class='grid'></td><td class='grid'></td><td class='grid'></td><td class='grid'></td><td class='grid'></td><td class='grid'></td>
+          <td id="2-0" class='grid'></td><td id="2-1" class='grid'></td><td id="2-2" class='grid'></td><td id="2-3" class='grid'></td><td id="2-4" class='grid'></td><td id="2-5" class='grid'></td>
         </tr>
         <tr>
-          <td class='grid'></td><td class='grid'></td><td class='grid'></td><td class='grid'></td><td class='grid'></td><td class='grid'></td>
+          <td id="3-0" class='grid'></td><td id="3-1" class='grid'></td><td id="3-2" class='grid'></td><td id="3-3" class='grid'></td><td id="3-4" class='grid'></td><td id="3-5" class='grid'></td>
         </tr>
         <tr>
-          <td class='grid'></td><td class='grid'></td><td class='grid'></td><td class='grid'></td><td class='grid'></td><td class='grid'></td>
+          <td id="4-0" class='grid'></td><td id="4-1" class='grid'></td><td id="4-2" class='grid'></td><td id="4-3" class='grid'></td><td id="4-4" class='grid'></td><td id="4-5" class='grid'></td>
         </tr>
       </table>
     </div>
@@ -271,7 +280,6 @@
 
     <div id="tiles-container">
     </div>
-
 
     <script>
       function clearBoard() {
@@ -295,6 +303,85 @@
           return a.random - b.random
         });
         app.tiles = tiles;
+      }
+
+      function determineCastleValue(name) {
+        var value;
+        if (name.indexOf('one') !== -1) {
+          value =  1
+        }
+        if (name.indexOf('two') !== -1) {
+          value =  2
+        }
+        if (name.indexOf('three') !== -1) {
+          value =  3
+        }
+        if (name.indexOf('four') !== -1) {
+          value =  4
+        }
+        if (name.indexOf('five') !== -1) {
+          value =  5
+        }
+        if (name.indexOf('six') !== -1) {
+          value =  6
+        }
+        return value;
+      }
+
+      function calculateResults() {
+        var i,
+            j,
+            rowValue = new Array(app.grid[1].length-1),
+            columnValue = new Array(app.grid.length-1),
+            castles = new Array(0),
+            playerValue = new Array(app.players.length-1);
+
+        for (i = 0; i < app.grid.length; i++) {
+          for (j = 0; j < app.grid[i].length; j++) {
+            if (app.grid[i][j] !== undefined) {
+              if (app.grid[i][j].castle !== undefined) {
+                castles.push({
+                  'x'     : i,
+                  'y'     : j,
+                  'color' : app.grid[i][j].castle.color,
+                  'value' : app.grid[i][j].castle.value
+                })
+              } else {
+                if (rowValue[i] == undefined) {
+                  rowValue[i] = 0;
+                }
+                if (columnValue[j] == undefined) {
+                  columnValue[j] = 0;
+                }
+                rowValue[i] = parseInt(rowValue[i]) + parseInt(app.grid[i][j].tile.value);
+                columnValue[j] = parseInt(columnValue[j]) + parseInt(app.grid[i][j].tile.value);
+              }
+            }
+          }
+        }
+
+        for (i = 0; i < app.players; i++) {
+          for (j = 0; j < castles.length; j++) {
+            // look at castles and column/rowValues, updating playerValue for each color
+          }
+        }
+
+        return {'row': rowValue, 'column': columnValue}
+      }
+
+      function buildGrid(x,y) {
+        var i, j, grid = [];
+        if (x == undefined) {
+          x = 5;
+        }
+        if (y == undefined) {
+          y = 4;
+        }
+
+        for(i = 0 ; i < x;  i++) {
+          grid[i] = new Array(y);
+        }
+        app.grid = grid
       }
 
       function generateRandomNumbers(max) {
@@ -350,7 +437,6 @@
           modal: true,
           buttons: {
             "1": function() {
-
               getCastle(1, this);
             },
             "2": function() {
